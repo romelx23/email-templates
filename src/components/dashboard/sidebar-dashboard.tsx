@@ -14,10 +14,10 @@ export const SidebarDashboard = () => {
     const navItems = [
         { icon: Home, label: "Vista General", href: "/dashboard" },
         { icon: Mail, label: "Campañas", href: "/dashboard/campaign" },
-        { icon: Settings, label: "Automatización", href: "#" },
-        { icon: Users, label: "Suscripciones", href: "#" },
-        { icon: Bot, label: "AI Chatbot", href: "#" },
-        { icon: LinkIcon, label: "Integraciones", href: "#" },
+        { icon: Settings, label: "Automatización", href: "/dashboard/automatization" },
+        // { icon: Users, label: "Suscripciones", href: "#" },
+        // { icon: Bot, label: "AI Chatbot", href: "#" },
+        // { icon: LinkIcon, label: "Integraciones", href: "#" },
     ]
 
     return (

@@ -12,42 +12,6 @@ export const ButtonLogin = () => {
 
     const router = useRouter();
     const { login } = useAuthStore();
-    // const [loginError, setLoginError] = useState<string | null>(null);
-
-    // const login = useGoogleLogin({
-    //     onSuccess: async (tokenResponse) => {
-    //         try {
-    //             console.log({ tokenResponse });
-    //             const accessToken = tokenResponse.access_token;
-
-    //             // Send the access token to your backend for verification
-    //             const response = await fetch("http://localhost:4000/api/v1/auth/google", {
-    //                 method: "POST",
-    //                 headers: {
-    //                     "Content-Type": "application/json",
-    //                 },
-    //                 body: JSON.stringify({ id_token: accessToken }),
-    //             });
-
-    //             if (!response.ok) {
-    //                 throw new Error("Failed to log in with Google");
-    //             }
-
-    //             const data = await response.json();
-    //             console.log("Login successful:", data);
-
-    //             // Redirect or handle post-login actions
-    //             router.push("/dashboard");
-    //         } catch (error) {
-    //             console.error("Login error:", error);
-    //             setLoginError((error as Error).message || "An unknown error occurred");
-    //         }
-    //     },
-    //     onError: (error) => {
-    //         console.error("Google Sign-In Error:", error);
-    //         setLoginError("Google Sign-In failed");
-    //     },
-    // });
 
     const onSuccess = async (credentials: any) => {
         try {
@@ -58,7 +22,7 @@ export const ButtonLogin = () => {
             // Send the access token to your backend for verification
             const response = await apiClient.post("/auth/google",
                 {
-                    body: JSON.stringify({ id_token: accessToken }),
+                    "id_token": accessToken,
                 },
                 {
                     headers: {
@@ -66,7 +30,7 @@ export const ButtonLogin = () => {
                     },
                 });
 
-            if (!response.data.ok) {
+            if (!response.data.access_token) {
                 throw new Error("Failed to log in with Google");
             }
 
@@ -83,8 +47,8 @@ export const ButtonLogin = () => {
 
             localStorage.setItem("x-token", data.access_token);
 
-            // Redirect or handle post-login actions
-            router.push("/dashboard");
+            // // Redirect or handle post-login actions
+            // router.push("/dashboard");
 
         } catch (error) {
             console.error("Login error:", error);

@@ -11,7 +11,7 @@ export const AuthLayoutClient: FC<IAuthLayoutProps> = ({ children }) => {
     const router = useRouter();
     const { user } = useAuthStore();
 
-    // console.log({ user });
+    console.log({ user });
 
     // if (user?.email) {
     //     router.push('/dashboard');

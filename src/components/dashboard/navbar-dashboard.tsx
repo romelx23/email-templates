@@ -66,7 +66,10 @@ export const NavbarDashboard = () => {
                         </Avatar>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-32">
-                        <DropdownMenuItem onClick={() => console.log("Profile clicked")}>
+                        <DropdownMenuItem onClick={() => {
+                            router.push("/dashboard/profile");
+                            console.log("Profile clicked")
+                        }}>
                             <User className="h-4 w-4 mr-2" />
                             Profile
                         </DropdownMenuItem>

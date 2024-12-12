@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Copy, Download, Loader2, Wand2 } from "lucide-react";
+import { Copy, Download, Loader2, Plus, Wand2 } from "lucide-react";
 import {
     Card,
     CardContent,
@@ -50,6 +50,7 @@ export const FormConfigEmail = ({ initialData }: FormConfigEmailProps) => {
 
     const queryClient = useQueryClient();
     const router = useRouter();
+    const { user } = useAuthStore();
 
     const [content, setContent] = useState(""); // Local state for dynamic editing
     const [emailPreview, setEmailPreview] = useState("");
@@ -156,6 +157,11 @@ export const FormConfigEmail = ({ initialData }: FormConfigEmailProps) => {
     };
 
     const onSubmit = async (data: FormData) => {
+
+        if ((user?.amount || 100) < 1) {
+            toast.error("No tienes suficientes créditos para guardar la plantilla");
+        }
+
         try {
             if (initialData) {
                 await handleEditTemplate(data);
