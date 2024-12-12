@@ -6,8 +6,8 @@ import Link from "next/link";
 export default function DashboardEmailConfigForm() {
 
     return (
-        <div className="w-full flex flex-col pt-5 px-8 pb-10">
-            <div className="flex items-center justify-between">
+        <div className="w-full flex flex-col pt-5 pb-10">
+            <div className="flex flex-wrap items-center justify-between">
                 <div>
                     <h1 className="text-2xl font-bold">Email</h1>
                     <p className="text-sm text-muted-foreground">

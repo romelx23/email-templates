@@ -29,7 +29,7 @@ export const NavbarDashboard = () => {
     console.log({ user });
 
     return (
-        <div className="w-full z-10 flex fixed bg-black justify-between px-8 py-3 items-center">
+        <div className="w-full z-10 flex fixed bg-black justify-between px-2 md:px-8 py-3 items-center">
             <Link
                 href="/"
                 className="flex items-center gap-2">

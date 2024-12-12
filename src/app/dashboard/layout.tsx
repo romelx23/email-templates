@@ -20,11 +20,13 @@ export default function DashboardLayout({
     return (
         <>
             <NavbarDashboard />
-            <div className="flex min-h-[80vh] pt-16 ">
+            <div className="flex min-h-[80vh] pt-14 ">
                 <SidebarDashboard />
-                <DashboarLayout>
-                    {children}
-                </DashboarLayout>
+                <div className="px-2 md:px-8">
+                    <DashboarLayout>
+                        {children}
+                    </DashboarLayout>
+                </div>
             </div>
             <FooterComponent />
         </>

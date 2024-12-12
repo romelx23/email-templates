@@ -31,9 +31,9 @@ export default function DashboardEmailEditForm() {
     }, [id]);
 
     return (
-        <div className="flex flex-col pt-5 pl-10 pb-10 w-full max-w-6xl">
-            <div className="flex items-center justify-between">
-                <div>
+        <div className="flex flex-col pt-5 pb-10 w-full max-w-6xl">
+            <div className="w-full flex items-center justify-between">
+                <div className="flex flex-col">
                     <h1 className="text-2xl font-bold">Editar Email</h1>
                     <p className="text-sm text-muted-foreground">
                         Aquí puedes editar un email a tu campaña.

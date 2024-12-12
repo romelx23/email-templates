@@ -21,9 +21,9 @@ export const SidebarDashboard = () => {
     ]
 
     return (
-        <div className="relative h-[90vh]">
-            <div className={`h-full flex  ${ isOpen ? "w-64" : "w-16" } transition-all duration-300 `}>
-                <div className={`flex flex-col border-r bg-black p-6 transition-all duration-300 ${ isOpen ? "w-64" : "w-16" }`}>
+        <div className={`fixed h-full z-20 md:relative md:h-[90vh]`}>
+            <div className={`h-full flex overflow-hidden transition-all duration-300 ${ isOpen ? "w-64 " : "w-0 md:w-16" }`}>
+                <div className={`flex flex-col border-r bg-black p-6 transition-all duration-300 ${ isOpen ? "w-64 " : "w-0 md:w-16" }`}>
                     <nav className="flex flex-1 flex-col gap-2">
                         {
                             navItems.map((item, index) => (
@@ -37,8 +37,14 @@ export const SidebarDashboard = () => {
                         }
                     </nav>
                 </div>
-                <button
+                {/* <button
                     className="absolute top-1/2 -right-3 transform -translate-y-1/2 bg-gray-800 text-white rounded-full p-2 shadow-md focus:outline-none"
+                    onClick={toggleSidebar}
+                >
+                    {isOpen ? <ChevronLeft className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
+                </button> */}
+                <button
+                    className="fixed bottom-5 right-3 transform bg-gray-800 text-white p-2 shadow-md focus:outline-none"
                     onClick={toggleSidebar}
                 >
                     {isOpen ? <ChevronLeft className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}

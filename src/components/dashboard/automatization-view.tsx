@@ -8,19 +8,13 @@ import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Separator } from "@/components/ui/separator"
-import { Textarea } from "@/components/ui/textarea"
 import { Calendar } from "../ui/calendar"
 import { format } from "date-fns"
 import { useState } from 'react'
 import { IEmail } from '../home/list-emails'
 import { useQuery } from '@tanstack/react-query'
 import { getEmails } from '@/features/home/helpers/email'
-
-// const templates = [
-//     { id: "welcome", name: "Welcome Message" },
-//     { id: "newsletter", name: "Monthly Newsletter" },
-//     { id: "promotion", name: "Promotional Offer" },
-// ]
+import { toast } from 'sonner'
 
 const fileTypes = [
     { id: "csv", name: "CSV", icon: FileText },
@@ -60,7 +54,12 @@ export default function AutomationView() {
         formData.append("schedule", format((schedule || new Date()), "yyyy-MM-dd HH:mm"));
 
         // Mock API Call
-        alert("Emails en cola para enviarse con estos datos.");
+        // alert("Emails en cola para enviarse con estos datos.");
+        toast.success(`Emails en cola para enviarse con estos datos.
+        Template: ${ selectedTemplate }
+        File: ${ file?.name }
+        Schedule: ${ format((schedule || new Date()), "yyyy-MM-dd HH:mm") }
+            `)
     }
 
     const { data: emails, isLoading } = useQuery<IEmail[]>({

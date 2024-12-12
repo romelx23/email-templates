@@ -5,8 +5,8 @@ import Link from "next/link";
 
 export default function DashboardEmailConfigForm() {
     return (
-        <div className="flex flex-col gap-3 pt-5 pl-10 pb-10 w-full max-w-6xl">
-            <div className="flex items-center justify-between">
+        <div className="flex flex-col gap-3 pt-5 pb-10 w-full max-w-6xl">
+            <div className="w-full flex flex-wrap items-center justify-between">
                 <div>
                     <h1 className="text-2xl font-bold">Agregar Email</h1>
                     <p className="text-sm text-muted-foreground">

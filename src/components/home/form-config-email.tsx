@@ -278,7 +278,7 @@ export const FormConfigEmail = ({ initialData }: FormConfigEmailProps) => {
                                 style={{ minHeight: '200px' }}
                             />
 
-                            <div className="flex">
+                            <div className="flex md:flex-nowrap flex-wrap">
 
                                 <Button
                                     type="button"

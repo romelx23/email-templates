@@ -26,7 +26,7 @@ export const ListEmails = () => {
     }
 
     return (
-        <div className="w-full flex flex-wrap gap-4 rounded-lg bg-black shadow pt-4">
+        <div className="w-full flex flex-row flex-wrap gap-4 rounded-lg bg-black shadow pt-4">
             {
                 emails &&
                 emails.length === 0 && (
@@ -40,7 +40,7 @@ export const ListEmails = () => {
                 emails.map((email) => (
                     <div
                         key={email.id}
-                        className="flex flex-col gap-3 w-64 p-4 rounded-lg shadow-sm bg-gray-800 hover:shadow-md transition-shadow"
+                        className="flex flex-col gap-3 w-72 md:w-64 p-4 rounded-lg shadow-sm bg-gray-800 hover:shadow-md transition-shadow"
                     >
                         <div className="flex justify-between">
                             <h3 className="text-lg font-semibold text-white truncate">
