@@ -1,28 +1,24 @@
+// "use client"
+import { AuthLayoutClient } from '@/components/dashboard/auth-layout';
 import { FooterComponent } from '@/components/home/footer';
 import { Navbar } from '@/components/home/navbar';
-import { Mail } from 'lucide-react';
-import Link from 'next/link';
-// import { redirect } from 'next/navigation';
+// import useAuthStore from '@/features/home/store/auth';
+// import { Mail } from 'lucide-react';
+// import Link from 'next/link';
+// import { useRouter } from 'next/navigation';
 
-export default async function AuthLayout({
+export default function AuthLayout({
     children, // will be a page or nested layout
 }: {
     children: React.ReactNode
 }) {
 
-    // const user = await getUserSession();
-
-    // console.log({ user });
-
-    // if (!user?.name) {
-    //     console.log('user not found');
-    //     redirect('/auth/login');
-    // }
-
     return (
         <>
             <Navbar />
-            {children}
+            <AuthLayoutClient>
+                {children}
+            </AuthLayoutClient>
             <FooterComponent />
         </>
     )

@@ -5,7 +5,7 @@ import { ButtonLogin } from "./button-login"
 
 export const FormLogin = () => {
     return (
-        <div className="flex min-h-screen items-center justify-center bg-gray-100">
+        <div className="flex min-h-screen items-center justify-center bg-black">
             <Card className="w-full max-w-md">
                 <CardHeader className="space-y-1">
                     <div className="flex items-center justify-center">

@@ -1,7 +1,6 @@
 "use client"
 
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Calendar } from "@/components/ui/calendar"
 import {
@@ -15,6 +14,7 @@ import {
 } from "recharts"
 import { ChartContainer, ChartTooltip } from "@/components/ui/chart"
 import { Home, Mail, Settings, Plus, Bot, LinkIcon, BarChart2, Users, TrendingUp, TrendingDown } from 'lucide-react'
+import { Credits } from "@/components/home/credits"
 
 const performanceData = [
     { month: "Jan", value: 34 },
@@ -53,6 +53,7 @@ const stats = [
 ]
 
 export default function Dashboard() {
+
     return (
         <div className="flex min-h-screen">
 
@@ -67,13 +68,17 @@ export default function Dashboard() {
                                 Bienvenido, veamos el rendimiento de tus campañas.
                             </p>
                         </div>
-                        <Link
-                            href="/dashboard/campaign"
-                            className="flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-primary rounded-md"
-                        >
-                            <Plus className="mr-2 h-4 w-4" />
-                            Crear campaña
-                        </Link>
+                        <div className="flex flex-col gap-2 items-end">
+                            <Link
+                                href="/dashboard/campaign"
+                                className="flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-primary rounded-md"
+                            >
+                                <Plus className="mr-2 h-4 w-4" />
+                                Crear campaña
+                            </Link>
+                            {/* show credits */}
+                            <Credits />
+                        </div>
                     </div>
 
                     {/* Stats Grid */}
