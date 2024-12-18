@@ -1,11 +1,11 @@
-import { Button } from "@/components/ui/button"
+// import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Mail } from 'lucide-react'
-import { ButtonRegisterLogin } from "./button-login"
+import { ButtonLogin } from "./button-login"
 
 export const FormRegister = () => {
     return (
-        <div className="flex min-h-screen items-center justify-center bg-gray-100">
+        <div className="flex min-h-screen items-center justify-center bg-black">
             <Card className="w-full max-w-md">
                 <CardHeader className="space-y-1">
                     <div className="flex items-center justify-center">
@@ -17,7 +17,8 @@ export const FormRegister = () => {
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="grid gap-4">
-                    <ButtonRegisterLogin />
+                    {/* <ButtonRegisterLogin /> */}
+                    <ButtonLogin />
                 </CardContent>
                 <CardFooter className="flex flex-col items-center">
                     <p className="mt-2 text-xs text-center text-gray-700">
