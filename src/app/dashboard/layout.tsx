@@ -2,6 +2,7 @@ import { DashboarLayout } from '@/components/dashboard/dashboar-layout';
 import { NavbarDashboard } from '@/components/dashboard/navbar-dashboard';
 import { SidebarDashboard } from '@/components/dashboard/sidebar-dashboard';
 import { FooterComponent } from '@/components/home/footer';
+// import { cookies } from 'next/headers';
 // import { Navbar } from '@/components/home/navbar';
 // import useAuthStore from '@/features/home/store/auth';
 // import { Mail } from 'lucide-react';
@@ -17,17 +18,23 @@ export default function DashboardLayout({
 
     // const user = await getUserSession();
 
+    // const deleteSession = async () => {
+    //     "use server"
+    //     cookies().delete('access_token');
+    // }
+
     return (
         <>
-            <NavbarDashboard />
-            <div className="flex min-h-[80vh] pt-14 ">
-                <SidebarDashboard />
-                <div className="px-2 md:px-8">
-                    <DashboarLayout>
+            <DashboarLayout>
+                <NavbarDashboard
+                />
+                <div className="flex min-h-[80vh] pt-14 ">
+                    <SidebarDashboard />
+                    <div className="px-2 md:px-8 w-full">
                         {children}
-                    </DashboarLayout>
+                    </div>
                 </div>
-            </div>
+            </DashboarLayout>
             <FooterComponent />
         </>
     )

@@ -17,7 +17,7 @@ const Loader = () => (
 const NavbarContent = () => {
     const { renew } = useAuthStore();
     const router = useRouter();
-    const { user, logout } = useAuthStore();
+    const { user, logout, isAuthenticated } = useAuthStore();
     const pathname = usePathname();
 
     useEffect(() => {
@@ -39,59 +39,68 @@ const NavbarContent = () => {
                 <Link className="text-sm font-medium hover:underline underline-offset-4" href="/pricing">
                     Pricing
                 </Link>
-                {user?.email ? (
-                    <div className="flex justify-center items-center gap-2">
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Avatar className="h-8 w-8 cursor-pointer">
-                                    {user ? (
-                                        <>
-                                            <AvatarImage src={user.picture} alt={user.name} />
-                                            <AvatarFallback className="bg-primary text-white">
-                                                {user.name.charAt(0).toUpperCase()}
-                                            </AvatarFallback>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <AvatarImage src="https://github.com/chadcn.png" alt="Chad CN" />
-                                            <AvatarFallback>CN</AvatarFallback>
-                                        </>
-                                    )}
-                                </Avatar>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end" className="w-32">
-                                {
-                                    pathname === "/dashboard" ?
-                                        <DropdownMenuItem onClick={() => {
-                                            router.push("/dashboard/profile")
-                                            console.log("Profile clicked")
-                                        }}>
-                                            <User className="h-4 w-4 mr-2" />
-                                            Profile
-                                        </DropdownMenuItem>
-                                        :
-                                        <DropdownMenuItem onClick={() => router.push("/dashboard")}>
-                                            <User className="h-4 w-4 mr-2" />
-                                            Dashboard
-                                        </DropdownMenuItem>
-                                }
-                                <DropdownMenuItem onClick={handleLogout}>
-                                    <LogOut className="h-4 w-4 mr-2" />
-                                    Logout
-                                </DropdownMenuItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                    </div>
-                ) : (
-                    <>
-                        <Link className="text-sm font-medium hover:underline underline-offset-4" href="/auth/login">
-                            Login
-                        </Link>
-                        <Link className="text-sm font-medium hover:underline underline-offset-4" href="/auth/register">
-                            Register
-                        </Link>
-                    </>
-                )}
+                {
+                    !user && isAuthenticated
+                        ? (
+                            <div className="h-8 w-8 bg-gray-200 rounded-full animate-pulse"></div>
+                        )
+                        :
+                        <>
+                            {user?.email ? (
+                                <div className="flex justify-center items-center gap-2">
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger asChild>
+                                            <Avatar className="h-8 w-8 cursor-pointer">
+                                                {user ? (
+                                                    <>
+                                                        <AvatarImage src={user.picture} alt={user.name} />
+                                                        <AvatarFallback className="bg-primary text-white">
+                                                            {user.name.charAt(0).toUpperCase()}
+                                                        </AvatarFallback>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <AvatarImage src="https://github.com/chadcn.png" alt="Chad CN" />
+                                                        <AvatarFallback>CN</AvatarFallback>
+                                                    </>
+                                                )}
+                                            </Avatar>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent align="end" className="w-32">
+                                            {
+                                                pathname === "/dashboard" ?
+                                                    <DropdownMenuItem onClick={() => {
+                                                        router.push("/dashboard/profile")
+                                                        console.log("Profile clicked")
+                                                    }}>
+                                                        <User className="h-4 w-4 mr-2" />
+                                                        Profile
+                                                    </DropdownMenuItem>
+                                                    :
+                                                    <DropdownMenuItem onClick={() => router.push("/dashboard")}>
+                                                        <User className="h-4 w-4 mr-2" />
+                                                        Dashboard
+                                                    </DropdownMenuItem>
+                                            }
+                                            <DropdownMenuItem onClick={handleLogout}>
+                                                <LogOut className="h-4 w-4 mr-2" />
+                                                Logout
+                                            </DropdownMenuItem>
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
+                                </div>
+                            ) : (
+                                <>
+                                    <Link className="text-sm font-medium hover:underline underline-offset-4" href="/auth/login">
+                                        Login
+                                    </Link>
+                                    <Link className="text-sm font-medium hover:underline underline-offset-4" href="/auth/register">
+                                        Register
+                                    </Link>
+                                </>
+                            )}
+                        </>
+                }
             </nav>
         </header>
     );

@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Copy, Download, Loader2, Plus, Wand2 } from "lucide-react";
+import { Copy, Download, Loader2, Pause, Play, Plus, Wand2 } from "lucide-react";
 import {
     Card,
     CardContent,
@@ -57,6 +57,8 @@ export const FormConfigEmail = ({ initialData }: FormConfigEmailProps) => {
     const [imagePreview, setImagePreview] = useState(""); // Imagen generada
     const [isGeneratingImage, setIsGeneratingImage] = useState(false);
     const [isGeneratingContent, setIsGeneratingContent] = useState(false);
+    const [idtemplate, setIdTemplate] = useState("");
+    const [isReading, setIsReading] = useState(false);
 
     const { updateAmount } = useAuthStore();
 
@@ -169,12 +171,6 @@ export const FormConfigEmail = ({ initialData }: FormConfigEmailProps) => {
                 await handleSaveTemplate(data);
             }
 
-            // Actualiza la lista de emails
-            queryClient.invalidateQueries();
-            router.push("/dashboard/campaign");
-
-            // alert("Plantilla guardada exitosamente");
-            toast.success("Plantilla guardada exitosamente");
         } catch (error) {
             console.error("Error saving template:", error);
         }
@@ -196,14 +192,24 @@ export const FormConfigEmail = ({ initialData }: FormConfigEmailProps) => {
                         "Authorization": `Bearer ${ localStorage.getItem("x-token") }`
                     },
                 });
+
+
+            // Actualiza la lista de emails
+            queryClient.invalidateQueries();
+            router.push("/dashboard/campaign");
+
+            // alert("Plantilla guardada exitosamente");
+            toast.success("Plantilla guardada exitosamente");
+
         } catch (error) {
             console.error("Error saving template:", error);
+            toast.error("Error guardando la plantilla");
         }
     }
 
     const handleEditTemplate = async (data: FormData) => {
         try {
-            const response = await apiClient.put("/email", {
+            const response = await apiClient.patch(`/email/${ idtemplate }`, {
                 title: data.campaignName,
                 subject: data.subject,
                 content: data.content,
@@ -221,10 +227,67 @@ export const FormConfigEmail = ({ initialData }: FormConfigEmailProps) => {
                 toast.success("Email actualizado exitosamente");
             }
 
+
+            // Actualiza la lista de emails
+            queryClient.invalidateQueries();
+            router.push("/dashboard/campaign");
+
+            // alert("Plantilla guardada exitosamente");
+            toast.success("Plantilla guardada exitosamente");
+
         } catch (error) {
             console.error("Error editing template:", error);
+            toast.error("Error guardando la plantilla");
         }
     }
+
+    const handleDeleteTemplate = async () => {
+        try {
+            const response = await apiClient.delete(`/email/${ idtemplate }`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${ localStorage.getItem("x-token") }`
+                },
+            });
+        } catch (error) {
+            console.error("Error deleting template:", error);
+        }
+    }
+
+    // button reader
+    const handleReadText = () => {
+        if (!emailPreview) {
+            alert("Por favor, introduce un texto para leer.");
+            return;
+        }
+
+        // Detiene cualquier lectura en curso
+        window.speechSynthesis.cancel();
+
+        const utterance = new SpeechSynthesisUtterance(emailPreview);
+        utterance.lang = "es-ES"; // Configura el idioma (español)
+        // voice
+        const voices = window.speechSynthesis.getVoices();
+        // console.log({ voices });
+        utterance.voice = voices[246]; // Selecciona la primera voz
+        utterance.rate = 1; // Velocidad de la lectura (1 es normal)
+        utterance.pitch = 1; // Tonalidad de la voz (1 es normal)
+        utterance.volume = 1; // Volumen (0 a 1)
+
+        utterance.onstart = () => setIsReading(true);
+        utterance.onend = () => setIsReading(false);
+        utterance.onerror = (error) => {
+            console.error("Error en la síntesis de voz:", error);
+            setIsReading(false);
+        };
+
+        window.speechSynthesis.speak(utterance);
+    };
+
+    const handleStopReading = () => {
+        window.speechSynthesis.cancel();
+        setIsReading(false);
+    };
 
     useEffect(() => {
         if (initialData) {
@@ -236,6 +299,7 @@ export const FormConfigEmail = ({ initialData }: FormConfigEmailProps) => {
             setContent(initialData.content);
             setEmailPreview(initialData.content);
             setImagePreview(initialData.url);
+            setIdTemplate(initialData.id.toString());
         }
     }, [initialData, setValue]);
 
@@ -317,12 +381,34 @@ export const FormConfigEmail = ({ initialData }: FormConfigEmailProps) => {
                                 </Button>
                             </div>
                         </div>
+
+                        <div className="space-y-2">
+                            <Label htmlFor="subject">
+                                URL de la imagen
+                            </Label>
+                            <Input
+                                id="subject"
+                                placeholder="Ej: https://example.com/image.png"
+                                value={imagePreview}
+                                onChange={(e) => setImagePreview(e.target.value)}
+                            />
+                        </div>
+
                         <div className="flex justify-end">
                             {
                                 initialData ? (
-                                    <Button type="button" variant="outline" onClick={() => alert("Email eliminado")}>
-                                        Actualizar Email
-                                    </Button>
+                                    <div className="flex gap-4">
+                                        <Button
+                                            type="button"
+                                            variant="outline"
+                                            className="bg-red-500 text-white"
+                                            onClick={handleDeleteTemplate}>
+                                            Eliminar Email
+                                        </Button>
+                                        <Button type="submit" variant="outline">
+                                            Actualizar Email
+                                        </Button>
+                                    </div>
                                 )
                                     :
                                     <Button type="submit" disabled={isSubmitting}>
@@ -335,7 +421,7 @@ export const FormConfigEmail = ({ initialData }: FormConfigEmailProps) => {
             </Card>
 
             {/* Preview Section */}
-            <Card className="w-full lg:max-w-2xl mx-auto bg-gray-100 shadow">
+            <Card className="w-full lg:max-w-2xl mx-auto bg-gray-100 shadow relative">
                 <CardHeader>
                     <CardTitle>Vista Previa del Email</CardTitle>
                 </CardHeader>
@@ -393,6 +479,29 @@ export const FormConfigEmail = ({ initialData }: FormConfigEmailProps) => {
                         </Button>
                     </div>
                 </CardContent>
+                <div className="flex flex-col gap-4 absolute top-4 right-4">
+                    <button
+                        onClick={handleReadText}
+                        disabled={isReading}
+                        className="px-4 py-2 flex justify-center bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:bg-gray-400"
+                    >
+                        {/* {isReading ? "Leyendo..." : "Leer Email"} */}
+                        {isReading ?
+                            <Loader2 className="animate-spin" />
+                            :
+                            <Play
+                                className="h-4 w-4" />
+                        }
+                    </button>
+                    <button
+                        onClick={handleStopReading}
+                        disabled={!isReading}
+                        className="px-4 py-2 flex justify-center bg-red-500 text-white rounded-md hover:bg-red-600 disabled:bg-gray-400"
+                    >
+                        {/* Detener Lectura */}
+                        <Pause className="h-4 w-4" />
+                    </button>
+                </div>
             </Card>
         </div>
     );

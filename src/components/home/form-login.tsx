@@ -1,7 +1,9 @@
-import { Button } from "@/components/ui/button"
+// import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Mail } from 'lucide-react'
 import { ButtonLogin } from "./button-login"
+// import { ButtonLoginServer } from "./button-login-server"
+// import { loginServer } from "@/actions/auth"
 
 export const FormLogin = () => {
     return (
@@ -18,6 +20,9 @@ export const FormLogin = () => {
                 </CardHeader>
                 <CardContent className="grid gap-4">
                     <ButtonLogin />
+                    {/* <ButtonLoginServer
+                        loginServer={loginServer}
+                    /> */}
                 </CardContent>
                 <CardFooter className="flex flex-col items-center">
                     <p className="mt-2 text-xs text-center text-gray-700">

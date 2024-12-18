@@ -3,11 +3,61 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Check, X } from 'lucide-react'
 import { HomeLayout } from "@/components/home/home-layout"
+import { ButtonPricing } from "@/components/home/button-pricing"
 
-const tiers = [
+// const tiers = [
+//     {
+//         name: "Básico",
+//         price: "9.99€",
+//         description: "Perfecto para pequeños negocios y emprendedores",
+//         features: [
+//             "Hasta 1,000 suscriptores",
+//             "Plantillas de email básicas",
+//             "Análisis de campañas",
+//             "Soporte por email",
+//         ],
+//         limitations: [
+//             "Sin acceso a herramientas de AI",
+//             "Sin integraciones avanzadas",
+//         ],
+//     },
+//     {
+//         name: "Pro",
+//         price: "29.99€",
+//         description: "Ideal para negocios en crecimiento",
+//         features: [
+//             "Hasta 10,000 suscriptores",
+//             "Plantillas de email personalizables",
+//             "Análisis avanzado de campañas",
+//             "Herramientas de AI para generación de contenido",
+//             "Integraciones con CRM populares",
+//             "Soporte prioritario",
+//         ],
+//         limitations: [
+//             "Límite en pruebas A/B",
+//         ],
+//     },
+//     {
+//         name: "Empresarial",
+//         price: "Personalizado",
+//         description: "Solución a medida para grandes empresas",
+//         features: [
+//             "Suscriptores ilimitados",
+//             "Plantillas de email totalmente personalizables",
+//             "Análisis predictivo con AI",
+//             "Integraciones personalizadas",
+//             "Gestor de cuenta dedicado",
+//             "SLA garantizado",
+//         ],
+//         limitations: [],
+//     },
+// ]
+
+export const tiers = [
     {
+        id: 1,
         name: "Básico",
-        price: "9.99€",
+        price: 9.99,
         description: "Perfecto para pequeños negocios y emprendedores",
         features: [
             "Hasta 1,000 suscriptores",
@@ -15,14 +65,16 @@ const tiers = [
             "Análisis de campañas",
             "Soporte por email",
         ],
+        tokens: 100,
         limitations: [
             "Sin acceso a herramientas de AI",
             "Sin integraciones avanzadas",
         ],
     },
     {
+        id: 2,
         name: "Pro",
-        price: "29.99€",
+        price: 29.99,
         description: "Ideal para negocios en crecimiento",
         features: [
             "Hasta 10,000 suscriptores",
@@ -32,13 +84,15 @@ const tiers = [
             "Integraciones con CRM populares",
             "Soporte prioritario",
         ],
+        tokens: 500,
         limitations: [
             "Límite en pruebas A/B",
         ],
     },
     {
+        id: 3,
         name: "Empresarial",
-        price: "Personalizado",
+        price: 99.99,
         description: "Solución a medida para grandes empresas",
         features: [
             "Suscriptores ilimitados",
@@ -48,9 +102,10 @@ const tiers = [
             "Gestor de cuenta dedicado",
             "SLA garantizado",
         ],
+        tokens: 2000,
         limitations: [],
     },
-]
+];
 
 export default function PricingPage() {
     return (
@@ -92,9 +147,12 @@ export default function PricingPage() {
                                     </ul>
                                 </CardContent>
                                 <CardFooter>
-                                    <Button className="w-full" variant={tier.name === "Pro" ? "default" : "outline"}>
+                                    {/* <Button className="w-full" variant={tier.name === "Pro" ? "default" : "outline"}>
                                         {tier.name === "Empresarial" ? "Contactar ventas" : "Comenzar"}
-                                    </Button>
+                                    </Button> */}
+                                    <ButtonPricing
+                                        tier={tier}
+                                    />
                                 </CardFooter>
                             </Card>
                         ))}

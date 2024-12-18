@@ -76,7 +76,6 @@ export default function Dashboard() {
                                 <Plus className="mr-2 h-4 w-4" />
                                 Crear campaña
                             </Link>
-                            {/* show credits */}
                             <Credits />
                         </div>
                     </div>
@@ -106,40 +105,36 @@ export default function Dashboard() {
 
                     {/* Charts */}
                     <div className="mt-8 grid gap-4 md:grid-cols-2">
-                        <Card>
+                        {/* Gráfico */}
+                        <Card className="max-w-full overflow-hidden">
                             <CardHeader>
                                 <CardTitle>Rendimiento de Campaña</CardTitle>
                                 <CardDescription>Tasa de apertura mensual</CardDescription>
                             </CardHeader>
-                            <CardContent
-                                className="p-0 overflow-x-hidden"
-                            >
-                                <ChartContainer
-                                    config={{}}
-                                    className="h-[300px]">
-                                    <ResponsiveContainer width="100%" height="100%">
-                                        <BarChart data={performanceData}>
-                                            <CartesianGrid strokeDasharray="3 3" />
-                                            <XAxis dataKey="month" />
-                                            <YAxis />
-                                            <ChartTooltip />
-                                            <Bar
-                                                dataKey="value"
-                                                fill="hsl(var(--primary))"
-                                                radius={[4, 4, 0, 0]}
-                                            />
-                                        </BarChart>
-                                    </ResponsiveContainer>
-                                </ChartContainer>
+                            <CardContent className="p-0 overflow-hidden">
+                                <ResponsiveContainer width="100%" height={300}>
+                                    <BarChart data={performanceData}>
+                                        <CartesianGrid strokeDasharray="3 3" />
+                                        <XAxis dataKey="month" />
+                                        <YAxis />
+                                        <ChartTooltip />
+                                        <Bar
+                                            dataKey="value"
+                                            fill="hsl(var(--primary))"
+                                            radius={[4, 4, 0, 0]}
+                                        />
+                                    </BarChart>
+                                </ResponsiveContainer>
                             </CardContent>
                         </Card>
 
-                        <Card>
+                        {/* Calendario */}
+                        <Card className="max-w-full overflow-hidden">
                             <CardHeader>
                                 <CardTitle>Calendario de Campañas</CardTitle>
                                 <CardDescription>Programa tus próximas campañas</CardDescription>
                             </CardHeader>
-                            <CardContent>
+                            <CardContent className="p-0 overflow-hidden">
                                 <Calendar />
                             </CardContent>
                         </Card>

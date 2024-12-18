@@ -44,10 +44,10 @@ export const SidebarDashboard = () => {
                     {isOpen ? <ChevronLeft className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
                 </button> */}
                 <button
-                    className="fixed bottom-5 right-3 transform bg-gray-800 text-white p-2 shadow-md focus:outline-none"
+                    className="fixed bottom-5 right-3 transform bg-gray-800 text-white p-2 md:p-3 shadow-md focus:outline-none"
                     onClick={toggleSidebar}
                 >
-                    {isOpen ? <ChevronLeft className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
+                    {isOpen ? <ChevronLeft className="h-4 w-4 md:h-6 md:w-6" /> : <ChevronRight className="h-4 w-4 md:h-6 md:w-6" />}
                 </button>
             </div>
         </div>

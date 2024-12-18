@@ -12,24 +12,32 @@ import {
 import useAuthStore from "@/features/home/store/auth";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useQueryClient } from "@tanstack/react-query";
 
+// interface INavbarDashboardProps {
+//     deleteSession: () => void;
+// }
 
+// export const NavbarDashboard = ({ deleteSession }: INavbarDashboardProps) => {
 export const NavbarDashboard = () => {
 
     const { user, logout } = useAuthStore();
     const router = useRouter();
+    const queryClient = useQueryClient();
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
         // Perform logout logic here (e.g., clear tokens, redirect, etc.)
         console.log("User logged out");
-        router.push("/auth/login");
+        // await deleteSession();
         logout();
+        router.push("/auth/login");
+        queryClient.invalidateQueries();
     };
 
     console.log({ user });
 
     return (
-        <div className="w-full z-10 flex fixed bg-black justify-between px-2 md:px-8 py-3 items-center">
+        <div className="w-full z-30 flex fixed bg-black justify-between px-2 md:px-8 py-3 items-center">
             <Link
                 href="/"
                 className="flex items-center gap-2">
