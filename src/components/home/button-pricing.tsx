@@ -1,11 +1,11 @@
 "use client"
 import apiClient from '@/api/apiClient';
-import { tiers } from '@/app/pricing/page';
 import React, { useState } from 'react'
 import { toast } from 'sonner';
 import { Button } from '../ui/button';
 import useAuthStore from '@/features/home/store/auth';
 import { useRouter } from 'next/navigation';
+import { tiers } from '@/helpers/tiers';
 
 interface ITier {
     id: number;
