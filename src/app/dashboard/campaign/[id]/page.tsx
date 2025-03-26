@@ -31,7 +31,7 @@ export default function DashboardEmailEditForm() {
     }, [id]);
 
     return (
-        <div className="flex flex-col pt-5 pb-10 w-full max-w-6xl">
+        <div className="flex flex-col pt-5 pb-10 w-full">
             <div className="w-full flex items-center justify-between">
                 <div className="flex flex-col">
                     <h1 className="text-2xl font-bold">Editar Email</h1>
@@ -39,7 +39,9 @@ export default function DashboardEmailEditForm() {
                         Aquí puedes editar un email a tu campaña.
                     </p>
                 </div>
-                <div className="flex flex-col gap-2 items-end">
+                <div className="flex gap-2 items-center">
+                    <Credits />
+
                     <Link
                         href="/dashboard/campaign"
                         className="flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-primary rounded-md"
@@ -47,7 +49,6 @@ export default function DashboardEmailEditForm() {
                         <ArrowLeft className="mr-2 h-4 w-4" />
                         Volver
                     </Link>
-                    <Credits />
                 </div>
             </div>
             {emailData ? (

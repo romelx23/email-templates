@@ -2,7 +2,9 @@
 // import apiClient from "@/api/apiClient";
 import useAuthStore from "@/features/home/store/auth";
 import { GoogleLogin } from "@react-oauth/google";
+import { LoaderPinwheel } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 interface IButtonLoginServerProps {
     loginServer: (accessToken: string) => Promise<{
@@ -24,6 +26,7 @@ export const ButtonLoginServer: React.FC<IButtonLoginServerProps> = ({ loginServ
 
 
     const { login } = useAuthStore();
+    const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
 
     const onSuccess = async (credentials: any) => {
@@ -42,6 +45,7 @@ export const ButtonLoginServer: React.FC<IButtonLoginServerProps> = ({ loginServ
             //             "Content-Type": "application/json",
             //         },
             //     });
+
             const data = await loginServer(accessToken);
 
             console.log("Login successful:", data);
@@ -55,14 +59,16 @@ export const ButtonLoginServer: React.FC<IButtonLoginServerProps> = ({ loginServ
                 picture: data.user.picture,
                 status: data.user.status,
                 amount: data.credits.amount
-            });
+            })
+
 
             // localStorage.setItem("x-token", data.access_token);
-
+            setIsLoading(false);
             // // Redirect or handle post-login actions
             router.push("/dashboard");
 
         } catch (error) {
+            setIsLoading(false);
             console.error("Login error:", error);
             // setLoginError((error as Error).message || "An unknown error occurred");
         }
@@ -84,10 +90,15 @@ export const ButtonLoginServer: React.FC<IButtonLoginServerProps> = ({ loginServ
                 Ingresa con Google
             </Button>
             {loginError && <p className="text-red-500 mt-2">{loginError}</p>} */}
-            <GoogleLogin
-                onSuccess={onSuccess}
-                onError={onError}
-            />
+            {
+                isLoading ?
+                    <LoaderPinwheel className="h-8 w-8 text-primary" />
+                    :
+                    <GoogleLogin
+                        onSuccess={onSuccess}
+                        onError={onError}
+                    />
+            }
         </div>
     )
 }

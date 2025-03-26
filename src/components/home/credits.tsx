@@ -15,14 +15,25 @@ export const Credits = () => {
     const [isAddingCredits, setIsAddingCredits] = useState(false)
 
     return (
-        <div className="flex items-center gap-2">
-            <span className="text-sm text-muted-foreground">Créditos:</span>
-            <span className="text-sm font-bold">{user?.amount}</span>
+        <>
+            <div className="flex flex-row items-center gap-2 bg-slate-900 p-2 rounded-md"
+                onClick={() => setIsAddingCredits(true)}
+            >
+                <span className="text-sm text-muted-foreground">Créditos:</span>
+                <span className="text-sm font-bold">{user?.amount}</span>
+
+                <Info className="h-4 w-4 text-gray-700" />
+                {/* <Link
+                href="/pricing"
+                className="text-sm text-primary"
+            >
+                <Info className="h-4 w-4 text-gray-700" />
+            </Link> */}
+            </div>
             <Dialog open={isAddingCredits} onOpenChange={setIsAddingCredits}>
-                <DialogTrigger asChild>
-                    {/* <Plus className=" h-4 w-4" /> */}
-                    <Info className="h-4 w-4 text-gray-700" />
-                </DialogTrigger>
+                {/* <DialogTrigger asChild> */}
+                {/* <Plus className=" h-4 w-4" /> */}
+                {/* </DialogTrigger> */}
                 <DialogContent className="sm:max-w-[425px]">
                     <DialogHeader>
                         <DialogTitle
@@ -31,26 +42,26 @@ export const Credits = () => {
                             Add Credits
                         </DialogTitle>
                         {/* <DialogDescription>
-                            Enter the amount of credits {`you'd`} like to add to your account.
-                        </DialogDescription> */}
+                        Enter the amount of credits {`you'd`} like to add to your account.
+                    </DialogDescription> */}
                         <DialogDescription>
                             {/* You {`don't`} have enough credits to save this email. Please add more credits to your account. */}
                             If you want to save this email, you need to add more credits to your account.
                         </DialogDescription>
                     </DialogHeader>
                     {/* <div className="grid gap-4 py-4">
-                        <div className="grid grid-cols-4 items-center gap-4">
-                            <Label htmlFor="credits" className="text-right">
-                                Credits
-                            </Label>
-                            <Input
-                                id="credits"
-                                type="number"
-                                className="col-span-3"
-                                placeholder="Enter amount"
-                            />
-                        </div>
-                    </div> */}
+                    <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="credits" className="text-right">
+                            Credits
+                        </Label>
+                        <Input
+                            id="credits"
+                            type="number"
+                            className="col-span-3"
+                            placeholder="Enter amount"
+                        />
+                    </div>
+                </div> */}
                     <DialogFooter>
                         <Button onClick={() => {
                             router.push('/pricing');
@@ -60,12 +71,6 @@ export const Credits = () => {
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
-            {/* <Link
-                href="/pricing"
-                className="text-sm text-primary"
-            >
-                <Info className="h-4 w-4 text-gray-700" />
-            </Link> */}
-        </div>
+        </>
     )
 }

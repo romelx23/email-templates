@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Copy, Download, Loader2, Pause, Play, Plus, Wand2 } from "lucide-react";
+import { Copy, Download, Loader2, Pause, Pencil, Play, Plus, Trash, Wand2 } from "lucide-react";
 import {
     Card,
     CardContent,
@@ -26,6 +26,8 @@ type FormData = {
     subject: string;
     templateType: string;
     content: string;
+    emailPrompt: string;
+    imagePrompt: string;
 };
 
 type FormConfigEmailProps = {
@@ -45,6 +47,8 @@ export const FormConfigEmail = ({ initialData }: FormConfigEmailProps) => {
             subject: "¡Bienvenido a nuestra newsletter!",
             // templateType: "",
             content: "",
+            emailPrompt: "",
+            imagePrompt: "",
         },
     });
 
@@ -73,8 +77,9 @@ export const FormConfigEmail = ({ initialData }: FormConfigEmailProps) => {
             // Llamada a la API para generar el contenido
             const response = await apiClient.post("/email/generate-email",
                 {
-                    templateType: watch("subject"),
-                    prompt: watch("content")
+                    // templateType: watch("subject"),
+                    // prompt: watch("content")
+                    prompt: watch("emailPrompt")
                 }
                 ,
                 {
@@ -87,6 +92,7 @@ export const FormConfigEmail = ({ initialData }: FormConfigEmailProps) => {
             const data = await response.data;
             if (data.content) {
                 setValue("content", data.content);
+                setValue("subject", data.title)
                 setEmailPreview(data.content);
                 setContent(data.content);
                 setIsGeneratingContent(false);
@@ -112,7 +118,8 @@ export const FormConfigEmail = ({ initialData }: FormConfigEmailProps) => {
         try {
             const response = await apiClient.post("/email/generate-image",
                 {
-                    prompt: watch("subject")
+                    // prompt: watch("subject")
+                    prompt: watch("imagePrompt")
                 },
                 {
                     headers: {
@@ -177,14 +184,17 @@ export const FormConfigEmail = ({ initialData }: FormConfigEmailProps) => {
     };
 
     const handleSaveTemplate = async (data: FormData) => {
+        console.log({ data });
         try {
             await apiClient.post("/email",
                 {
-                    title: data.campaignName,
+                    title: data.subject.slice(0, 30),
                     subject: data.subject,
                     content: data.content,
                     url: imagePreview, // URL de la imagen generada
                     status: "pending",
+                    emailPrompt: data.emailPrompt,
+                    imagePrompt: data.imagePrompt,
                 }
                 , {
                     headers: {
@@ -306,20 +316,83 @@ export const FormConfigEmail = ({ initialData }: FormConfigEmailProps) => {
     return (
         <div className="flex flex-col lg:flex-row gap-6 min-h-[80vh]">
             {/* Form Section */}
-            <Card className="w-full max-w-xl mx-auto">
+            <Card className="w-full max-w-2xl mx-auto">
                 <CardHeader>
-                    <CardTitle>Configurar Email de Suscripción</CardTitle>
+                    <CardTitle>Configuración del Email</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                        <div className="space-y-2">
+                        {/* <div className="space-y-2">
                             <Label htmlFor="campaignName">Nombre de la Campaña</Label>
                             <Input
                                 id="campaignName"
                                 placeholder="Ej: Newsletter Semanal"
                                 {...register("campaignName", { required: true })}
                             />
+                        </div> */}
+                        <div className="space-y-2">
+                            <Label htmlFor="emailPrompt">Nombre de la Campaña</Label>
+                            <Textarea
+                                id="emailPrompt"
+                                placeholder="Escribe el contenido de tu email aquí"
+                                {...register("emailPrompt", { required: true })}
+                                style={{ minHeight: '100px' }}
+                            />
                         </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="imagePrompt">Nombre de la Campaña</Label>
+                            <Textarea
+                                id="imagePrompt"
+                                placeholder="Imagina la imagen que necesitas"
+                                {...register("imagePrompt", { required: true })}
+                                style={{ minHeight: '100px' }}
+                            />
+                        </div>
+
+
+                        <div className="flex justify-end md:flex-nowrap flex-wrap">
+
+                            <Button
+                                type="button"
+                                variant="outline"
+                                size="default"
+                                onClick={handleGenerateContent}
+                                disabled={isSubmitting || !watch("emailPrompt") || isGeneratingContent}
+                                className="disabled:opacity-75 disabled:cursor-not-allowed"
+                            >
+                                {isSubmitting || isGeneratingContent ? (
+                                    <Loader2 className=" animate-spin" />
+                                ) : (
+                                    <Wand2 className="" />
+                                )}
+                                <span
+                                    className="ml-2"
+                                >
+                                    Generar contenido
+                                </span>
+                            </Button>
+
+                            <Button
+                                type="button"
+                                variant="outline"
+                                size="default"
+                                onClick={handleGenerateImage}
+                                disabled={isSubmitting || !watch("imagePrompt") || isGeneratingImage}
+                                className="disabled:opacity-75 disabled:cursor-not-allowed"
+                            >
+                                {isSubmitting || isGeneratingImage ? (
+                                    <Loader2 className="animate-spin" />
+                                ) : (
+                                    <Download className="" />
+                                )}
+                                <span className="ml-2">
+                                    Generar imagen
+                                </span>
+                            </Button>
+                        </div>
+
+
+                        <div className="space-y-2 h-1 rounded-full w-full bg-gray-500 bg-opacity-70"></div>
                         <div className="space-y-2">
                             <Label htmlFor="subject">Asunto del Email</Label>
                             <Input
@@ -342,44 +415,6 @@ export const FormConfigEmail = ({ initialData }: FormConfigEmailProps) => {
                                 style={{ minHeight: '200px' }}
                             />
 
-                            <div className="flex md:flex-nowrap flex-wrap">
-
-                                <Button
-                                    type="button"
-                                    variant="outline"
-                                    size="default"
-                                    onClick={handleGenerateContent}
-                                    disabled={isSubmitting || !watch("content")}
-                                >
-                                    {isSubmitting || isGeneratingContent ? (
-                                        <Loader2 className=" animate-spin" />
-                                    ) : (
-                                        <Wand2 className="" />
-                                    )}
-                                    <span
-                                        className="ml-2"
-                                    >
-                                        Generar contenido
-                                    </span>
-                                </Button>
-
-                                <Button
-                                    type="button"
-                                    variant="outline"
-                                    size="default"
-                                    onClick={handleGenerateImage}
-                                    disabled={isSubmitting || !watch("subject")}
-                                >
-                                    {isSubmitting || isGeneratingImage ? (
-                                        <Loader2 className="animate-spin" />
-                                    ) : (
-                                        <Download className="" />
-                                    )}
-                                    <span className="ml-2">
-                                        Generar imagen
-                                    </span>
-                                </Button>
-                            </div>
                         </div>
 
                         <div className="space-y-2">
@@ -403,9 +438,11 @@ export const FormConfigEmail = ({ initialData }: FormConfigEmailProps) => {
                                             variant="outline"
                                             className="bg-red-500 text-white"
                                             onClick={handleDeleteTemplate}>
+                                            <Trash className="h-4 w-4 mr-2" />
                                             Eliminar Email
                                         </Button>
                                         <Button type="submit" variant="outline">
+                                            <Pencil className="h-4 w-4 mr-2" />
                                             Actualizar Email
                                         </Button>
                                     </div>
@@ -479,29 +516,33 @@ export const FormConfigEmail = ({ initialData }: FormConfigEmailProps) => {
                         </Button>
                     </div>
                 </CardContent>
-                <div className="flex flex-col gap-4 absolute top-4 right-4">
-                    <button
-                        onClick={handleReadText}
-                        disabled={isReading}
-                        className="px-4 py-2 flex justify-center bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:bg-gray-400"
-                    >
-                        {/* {isReading ? "Leyendo..." : "Leer Email"} */}
-                        {isReading ?
-                            <Loader2 className="animate-spin" />
-                            :
-                            <Play
-                                className="h-4 w-4" />
-                        }
-                    </button>
-                    <button
-                        onClick={handleStopReading}
-                        disabled={!isReading}
-                        className="px-4 py-2 flex justify-center bg-red-500 text-white rounded-md hover:bg-red-600 disabled:bg-gray-400"
-                    >
-                        {/* Detener Lectura */}
-                        <Pause className="h-4 w-4" />
-                    </button>
-                </div>
+                {
+                    content && (
+                        <div className="flex flex-col gap-4 absolute top-4 right-4">
+                            <button
+                                onClick={handleReadText}
+                                disabled={isReading}
+                                className="px-4 py-2 flex justify-center bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:bg-gray-400"
+                            >
+                                {/* {isReading ? "Leyendo..." : "Leer Email"} */}
+                                {isReading ?
+                                    <Loader2 className="animate-spin" />
+                                    :
+                                    <Play
+                                        className="h-4 w-4" />
+                                }
+                            </button>
+                            <button
+                                onClick={handleStopReading}
+                                disabled={!isReading}
+                                className="px-4 py-2 flex justify-center bg-red-500 text-white rounded-md hover:bg-red-600 disabled:bg-gray-400"
+                            >
+                                {/* Detener Lectura */}
+                                <Pause className="h-4 w-4" />
+                            </button>
+                        </div>
+                    )
+                }
             </Card>
         </div>
     );
